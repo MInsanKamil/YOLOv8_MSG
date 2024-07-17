@@ -7,6 +7,7 @@ from pathlib import Path
 import torch
 import torch.nn as nn
 from ultralytics.nn.modules.conv import(Conv_Spatial_Max_Pooling_Dropout,GhostConv_Modification,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
+from ultralytics.nn.modules.head import(Detect_GhostModule, Detect_GhostModule_Modfication)
 
 from ultralytics.nn.modules import (
     AIFI,
@@ -973,7 +974,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             args = [ch[f]]
         elif m is Concat:
             c2 = sum(ch[x] for x in f)
-        elif m in {Detect, WorldDetect, Segment, Pose, OBB, ImagePoolingAttn, v10Detect}:
+        elif m in {Detect, WorldDetect, Segment, Pose, OBB, ImagePoolingAttn, v10Detect,Detect_GhostModule, Detect_GhostModule_Modfication}:
             args.append([ch[x] for x in f])
             if m is Segment:
                 args[2] = make_divisible(min(args[2], max_channels) * width, 8)
@@ -1090,7 +1091,7 @@ def guess_model_task(model):
                 return "pose"
             elif isinstance(m, OBB):
                 return "obb"
-            elif isinstance(m, (Detect, WorldDetect, v10Detect)):
+            elif isinstance(m, (Detect, WorldDetect, v10Detect, Detect_GhostModule, Detect_GhostModule_Modfication)):
                 return "detect"
 
     # Guess from model filename
