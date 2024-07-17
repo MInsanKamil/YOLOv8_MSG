@@ -6,7 +6,7 @@ from pathlib import Path
 
 import torch
 import torch.nn as nn
-from ultralytics.nn.modules.conv import(Conv_Spatial_Max_Pooling_Dropout,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
+from ultralytics.nn.modules.conv import(Conv_Spatial_Max_Pooling_Dropout,GhostConv_Modification,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
 
 from ultralytics.nn.modules import (
     AIFI,
@@ -915,6 +915,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             ConvTranspose,
             GhostConv,
             Conv_Spatial_Max_Pooling_Dropout,
+            GhostConv_Modification,
             Conv_Spatial_Max_Pooling,
             Conv_Max_Pooling_Dropout,
             Conv_Max_Pooling,
