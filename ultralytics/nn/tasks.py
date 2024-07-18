@@ -6,7 +6,7 @@ from pathlib import Path
 
 import torch
 import torch.nn as nn
-from ultralytics.nn.modules.conv import(Conv_Spatial_Max_Pooling_Dropout,GhostConv_Modification,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
+from ultralytics.nn.modules.conv import(Conv_Avg_Pooling,Conv_Spatial_Max_Pooling_Dropout,GhostConv_Modification,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
 from ultralytics.nn.modules.head import(Detect_GhostModule, Detect_GhostModule_Modfication)
 
 from ultralytics.nn.modules import (
@@ -915,6 +915,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             Conv,
             ConvTranspose,
             GhostConv,
+            Conv_Avg_Pooling,
             Conv_Spatial_Max_Pooling_Dropout,
             GhostConv_Modification,
             Conv_Spatial_Max_Pooling,
