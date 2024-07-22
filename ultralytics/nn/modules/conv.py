@@ -127,31 +127,34 @@ class Conv_Max_Pooling_Dropout(nn.Module):
 
     default_act = nn.SiLU()  # default activation
 
-    def __init__(self, c1, c2, k=1, s=1,prob=0.2, p=None, g=1, d=1, act=True):
+    def __init__(self, c1, c2, k=1, s=1,prob=0.2,km=3, p=None, g=1, d=1, act=True):
         """Initialize Conv layer with given arguments including activation."""
         super().__init__()
         self.conv = nn.Conv2d(c1, c2, k, s, autopad(k, p, d), groups=g, dilation=d, bias=False)
         self.bn = nn.BatchNorm2d(c2)
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
-        self.max_pool = nn.MaxPool2d(2, stride=2)  # GAP layer
+        self.max_pool = nn.MaxPool2d(km, stride=2)  # GAP layer
         self.dropout = nn.Dropout(prob)
         
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
+        x = self.act(self.bn(self.conv(x)))
         if self.training:   
-            x = self.act(self.bn(self.conv(self.max_pool(self.dropout(x)))))
+            x = self.max_pool(self.dropout(x))
             # LOGGER.info("efisien strategy successfully!")
         else:
-            x = self.act(self.bn(self.conv(self.max_pool(x))))
+            x = self.max_pool(x)
         return x
 
     def forward_fuse(self, x):
         """Perform transposed convolution of 2D data."""
+        x = self.act(self.conv(x))
         if self.training:   
-            x = self.act(self.conv(self.max_pool(self.dropout(x))))
+            x = self.max_pool(self.dropout(x))
+            # LOGGER.info("efisien strategy successfully!")
         else:
-            x = self.act(self.conv(self.max_pool(x)))
+            x = self.max_pool(x)
         return x
     
 class Conv_Max_Pooling(nn.Module):
