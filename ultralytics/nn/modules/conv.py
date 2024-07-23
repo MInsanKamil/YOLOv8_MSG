@@ -77,14 +77,16 @@ class Conv_Spatial_Max_Pooling(nn.Module):
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
+        x = self.act(self.bn(self.conv(x)))
         x = self.sa(x)
-        x = self.act(self.bn(self.conv(self.max_pool(x))))
+        x = self.max_pool(x)
         return x
 
     def forward_fuse(self, x):
         """Perform transposed convolution of 2D data."""
+        x = self.act(self.conv(x))
         x = self.sa(x)
-        x = self.act(self.conv(self.max_pool(x)))
+        x = self.max_pool(x)
         return x
 
 class Conv_Spatial_Max_Pooling_Dropout(nn.Module):
