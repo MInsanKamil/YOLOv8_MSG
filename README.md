@@ -48,7 +48,7 @@ path = model.export(format="onnx")  # export the model to ONNX format
 
 ## <div align="center">Models</div>
 
-Dibawah ini hasi  evaluasi model untuk menndeteksi objek dalam rumah ([Indoor Object Dataset](https://app.roboflow.com/csgitk/indoor_object_ta/10)) 
+Dibawah ini hasi  evaluasi model untuk mendeteksi objek dalam rumah ([Indoor Object Dataset](https://app.roboflow.com/csgitk/indoor_object_ta/10)) 
 
 | Model                                                                                | size<br><sup>(pixels) | mAP<sup>val<br>50 | mAP<sup>test<br>50 | GFLOPs<br><sup>(B) |
 | ------------------------------------------------------------------------------------ | --------------------- | -------------------- | -------------------- | ----------------- |
