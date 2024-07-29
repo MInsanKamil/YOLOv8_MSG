@@ -72,7 +72,7 @@ class Conv_Spatial_Max_Pooling(nn.Module):
         self.bn = nn.BatchNorm2d(c2)
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
         self.max_pool = nn.MaxPool2d(3, stride=2)  # GAP layer
-        self.sa= SpatialAttention(3)
+        self.sa= SpatialAttention()
         
 
     def forward(self, x):
@@ -102,7 +102,7 @@ class Conv_Spatial_Max_Pooling_Dropout(nn.Module):
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
         self.max_pool = nn.MaxPool2d(3, stride=2)  # GAP layer
         self.dropout = nn.Dropout(prob)
-        self.sa= SpatialAttention(3)
+        self.sa= SpatialAttention()
         
 
     def forward(self, x):
