@@ -175,7 +175,7 @@ class Conv_Attn_Pooling(nn.Module):
         self.bn = nn.BatchNorm2d(c2)
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
         self.max_pool = nn.MaxPool2d(3, stride=2)  # GAP layer
-        self.cbam= CBAM(c2, 3)
+        self.cbam= CBAM(c1, 3)
         
 
     def forward(self, x):
