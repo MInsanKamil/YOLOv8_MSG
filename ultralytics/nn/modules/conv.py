@@ -297,6 +297,7 @@ class Conv_Avg_Attn_Pooling(nn.Module):
         x = self.act(self.bn(self.conv(x)))
         x = self.cbam(x)
         x = self.avg_pool(x)
+        x = self.cbam(x)
         return x
 
     def forward_fuse(self, x):
@@ -304,6 +305,7 @@ class Conv_Avg_Attn_Pooling(nn.Module):
         x = self.act(self.conv(x))
         x = self.cbam(x)
         x = self.avg_pool(x)
+        x = self.cbam(x)
         return x
     
 class Conv_Avg_Poolingv2(nn.Module):
