@@ -295,15 +295,15 @@ class Conv_Avg_Attn_Pooling(nn.Module):
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
         x = self.act(self.bn(self.conv(x)))
-        x = self.avg_pool(x)
         x = self.cbam(x)
+        x = self.avg_pool(x)
         return x
 
     def forward_fuse(self, x):
         """Perform transposed convolution of 2D data."""
         x = self.act(self.conv(x))
-        x = self.avg_pool(x)
         x = self.cbam(x)
+        x = self.avg_pool(x)
         return x
     
 class Conv_Avg_Poolingv2(nn.Module):
