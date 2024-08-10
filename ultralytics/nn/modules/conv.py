@@ -180,18 +180,15 @@ class Conv_Attn_Pooling(nn.Module):
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
         self.max_pool = nn.MaxPool2d(km, stride=2)  # GAP layer
         self.cbam= CBAM(c2)
-        self.cbam_first= CBAM(c1)
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
-        x = self.cbam_first(x)
         x = self.act(self.bn(self.conv(x)))
         x = self.max_pool(self.cbam(x))
         return x
 
     def forward_fuse(self, x):
         """Perform transposed convolution of 2D data."""
-        x = self.cbam_first(x)
         x = self.act(self.conv(x))
         x = self.max_pool(self.cbam(x))
         return x
