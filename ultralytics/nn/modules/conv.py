@@ -154,7 +154,7 @@ class Conv_Attn_Pooling_Dropout(nn.Module):
         x = self.act(self.bn(self.cbam(self.conv(x))))
         if self.training:   
             x = self.dropout(x)
-        x = self.max_pool()
+        x = self.max_pool(x)
         return x
 
     def forward_fuse(self, x):
