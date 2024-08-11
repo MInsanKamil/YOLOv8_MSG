@@ -29,6 +29,7 @@ __all__ = (
     "Conv_Avg_Pooling",
     "Conv_Avg_Poolingv2",
     "Conv_Attn_Pooling_Dropout",
+    "Conv_Attn_Pooling",
     "Conv_Avg_Attn_Pooling",
     "Conv_Attn_Pooling_SpatialFirst",
     "Conv_Attn"
