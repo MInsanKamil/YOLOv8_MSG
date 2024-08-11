@@ -373,7 +373,7 @@ class Conv_Stride_Attn_Pooling(nn.Module):
         self.conv = nn.Conv2d(c1, c2, k, s, autopad(k, p, d), groups=g, dilation=d, bias=False)
         self.bn = nn.BatchNorm2d(c2)
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
-        self.stride_pool = nn.Conv2d(c2, c2, 1, 2, 1, groups=g, dilation=d, bias=False)
+        self.stride_pool = nn.Conv2d(c2, c2, 1, 2, autopad(k, 1, d), groups=g, dilation=d, bias=False)
         self.cbam = CBAM(c2)
 
     def forward(self, x):
