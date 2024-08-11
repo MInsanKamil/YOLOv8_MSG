@@ -179,12 +179,14 @@ class Conv_Attn_Pooling(nn.Module):
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
         self.max_pool = nn.MaxPool2d(km, stride=2)  # GAP layer
         self.cbam= CBAM(c2)
+        self.sa = SpatialAttention()
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
         x = self.act(self.bn(self.conv(x)))
         x = self.cbam(x)
         x = self.max_pool(x)
+        x = self.sa(x)
         return x
 
     def forward_fuse(self, x):
@@ -192,6 +194,7 @@ class Conv_Attn_Pooling(nn.Module):
         x = self.act(self.conv(x))
         x = self.cbam(x)
         x = self.max_pool(x)
+        x = self.sa(x)
         return x
     
 class Conv_Attn(nn.Module):
