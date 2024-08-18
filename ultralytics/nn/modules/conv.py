@@ -266,22 +266,18 @@ class Conv_Max_Pooling_Dropout(nn.Module):
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
-        if self.training:   
-            x = self.max_pool(self.dropout(x))
-            # LOGGER.info("efisien strategy successfully!")
-        else:
-            x = self.max_pool(x)
         x = self.act(self.bn(self.conv(x)))
+        if self.training:   
+            x = self.dropout(x)
+        x = self.max_pool(x)
         return x
 
     def forward_fuse(self, x):
         """Perform transposed convolution of 2D data."""
-        if self.training:   
-            x = self.max_pool(self.dropout(x))
-            # LOGGER.info("efisien strategy successfully!")
-        else:
-            x = self.max_pool(x)
         x = self.act(self.conv(x))
+        if self.training:   
+            x = self.dropout(x)
+        x = self.max_pool(x)
         return x
     
 class Conv_Max_Pooling(nn.Module):
