@@ -152,16 +152,18 @@ class Conv_Attn_Pooling_Dropout(nn.Module):
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
-        x = self.act(self.bn(self.cbam(self.conv(x))))
-        if self.training:   
+        x = self.act(self.bn(self.conv(x)))
+        x = self.cbam(x)
+        if self.training:
             x = self.dropout(x)
         x = self.max_pool(x)
         return x
 
     def forward_fuse(self, x):
         """Perform transposed convolution of 2D data."""
-        x = self.act(self.cbam(self.conv(x)))
-        if self.training:   
+        x = self.act(self.conv(x))
+        x = self.cbam(x)
+        if self.training:
             x = self.dropout(x)
         x = self.max_pool(x)
         return x
