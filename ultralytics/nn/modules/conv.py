@@ -20,6 +20,7 @@ __all__ = (
     "SpatialAttention",
     "CBAM",
     "Concat",
+    "Concat_AdjustSize",
     "RepConv",
     "Conv_Spatial_Max_Pooling",
     "Conv_Spatial_Max_Pooling_Dropout",
@@ -287,13 +288,13 @@ class Conv_Max_Pooling(nn.Module):
 
     default_act = nn.SiLU()  # default activation
 
-    def __init__(self, c1, c2, k=1, s=1, p=None, g=1, d=1, act=True):
+    def __init__(self, c1, c2, k=1, s=1,  km=3, p=None, g=1, d=1, act=True):
         """Initialize Conv layer with given arguments including activation."""
         super().__init__()
         self.conv = nn.Conv2d(c1, c2, k, s, autopad(k, p, d), groups=g, dilation=d, bias=False)
         self.bn = nn.BatchNorm2d(c2)
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
-        self.max_pool = nn.MaxPool2d(3, stride=2)  # GAP layer
+        self.max_pool = nn.MaxPool2d(km, stride=2)  # GAP layer
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
@@ -708,3 +709,16 @@ class Concat(nn.Module):
     def forward(self, x):
         """Forward pass for the YOLOv8 mask Proto module."""
         return torch.cat(x, self.d)
+    
+class Concat_AdjustSize(nn.Module):
+    """Concatenate a list of tensors along dimension."""
+
+    def __init__(self, dimension=1):
+        """Concatenates a list of tensors along a specified dimension."""
+        super().__init__()
+        self.d = dimension
+        self.max_pooling = nn.MaxPool2d(2, 2)
+
+    def forward(self, x):
+        """Forward pass for the YOLOv8 mask Proto module."""
+        return torch.cat((x[0], self.max_pooling(x[1])), self.d)

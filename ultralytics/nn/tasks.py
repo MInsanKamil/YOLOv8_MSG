@@ -6,9 +6,9 @@ from pathlib import Path
 
 import torch
 import torch.nn as nn
-from ultralytics.nn.modules.conv import(Conv_Stride_Attn_Pooling,Conv_Attn,Conv_Attn_Pooling_SpatialFirst,Conv_Avg_Attn_Pooling,Conv_Avg_Pooling,Conv_Attn_Pooling_Dropout,Conv_Attn_Pooling,Conv_Avg_Poolingv2,Conv_Spatial_Max_Pooling_Dropout,GhostConv_Modification,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
+from ultralytics.nn.modules.conv import(Concat_AdjustSize,Conv_Stride_Attn_Pooling,Conv_Attn,Conv_Attn_Pooling_SpatialFirst,Conv_Avg_Attn_Pooling,Conv_Avg_Pooling,Conv_Attn_Pooling_Dropout,Conv_Attn_Pooling,Conv_Avg_Poolingv2,Conv_Spatial_Max_Pooling_Dropout,GhostConv_Modification,Conv_Max_Pooling_Dropout,Conv_Max_Pooling, Conv_Spatial_Max_Pooling)
 from ultralytics.nn.modules.head import(Detect_GhostModule, Detect_GhostModule_Modfication)
-from ultralytics.nn.modules.block import(CBAM_C2f, CA_C2f)
+from ultralytics.nn.modules.block import(CBAM_C2f, CA_C2f, C2f_Max_Pooling)
 
 from ultralytics.nn.modules import (
     AIFI,
@@ -940,6 +940,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             C2,
             C2f,
             CBAM_C2f,
+            C2f_Max_Pooling,
             CA_C2f,
             RepNCSPELAN4,
             ELAN1,
@@ -968,7 +969,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
                 )  # num heads
 
             args = [c1, c2, *args[1:]]
-            if m in {BottleneckCSP, C1, C2, C2f, C2fAttn, C3, C3TR, C3Ghost, C3x, RepC3, C2fCIB, CBAM_C2f, CA_C2f}:
+            if m in {BottleneckCSP, C1, C2, C2f, C2fAttn, C3, C3TR, C3Ghost, C3x, RepC3, C2fCIB, CBAM_C2f,C2f_Max_Pooling, CA_C2f}:
                 args.insert(2, n)  # number of repeats
                 n = 1
         elif m is AIFI:
@@ -983,7 +984,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             c2 = args[1] if args[3] else args[1] * 4
         elif m is nn.BatchNorm2d:
             args = [ch[f]]
-        elif m is Concat:
+        elif m is {Concat,Concat_AdjustSize}:
             c2 = sum(ch[x] for x in f)
         elif m in {Detect, WorldDetect, Segment, Pose, OBB, ImagePoolingAttn, v10Detect,Detect_GhostModule, Detect_GhostModule_Modfication}:
             args.append([ch[x] for x in f])
