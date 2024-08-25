@@ -724,23 +724,18 @@ class Concat_AdjustSize(nn.Module):
         # Ensure x is a list of two tensors
         assert len(x) == 2, "Input must be a list of two tensors."
         
-        shape0 = x[0].shape[2:]
-        shape1 = x[1].shape[2:]
+        shape0 = x[0].size()[2:]
+        shape1 = x[1].size()[2:]
         
         # Check if the sizes are different
         if shape0 != shape1:
-            # Calculate padding for each dimension
-            padding0 = [(shape1[i] - shape0[i]) // 2 if shape1[i] > shape0[i] else 0 for i in range(len(shape0))]
-            padding1 = [(shape0[i] - shape1[i]) // 2 if shape0[i] > shape1[i] else 0 for i in range(len(shape1))]
-            
-            # Apply padding (only apply padding if the difference is non-zero)
-            if sum(padding0) > 0:
-                x0 = F.pad(x[0], (0, padding0[1], 0, padding0[0]), mode='constant', value=0)
+            if shape1[0] > shape0[0]:
+                x0 = F.interpolate(x[0], shape1)
             else:
                 x0 = x[0]
             
-            if sum(padding1) > 0:
-                x1 = F.pad(x[1], (0, padding1[1], 0, padding1[0]), mode='constant', value=0)
+            if shape0[0] > shape1[0]:
+                x1 = F.interpolate(x[1], shape0)
             else:
                 x1 = x[1]
         else:
