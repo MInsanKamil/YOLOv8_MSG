@@ -6,6 +6,7 @@ import math
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 __all__ = (
     "Conv",
@@ -711,31 +712,36 @@ class Concat(nn.Module):
         return torch.cat(x, self.d)
     
 class Concat_AdjustSize(nn.Module):
-    """Concatenate a list of tensors along dimension."""
+    """Concatenate a list of tensors along a specified dimension, with padding if necessary."""
 
     def __init__(self, dimension=1):
-        """Concatenates a list of tensors along a specified dimension."""
+        """Initialize the concatenation dimension."""
         super().__init__()
         self.d = dimension
-        
+
     def forward(self, x):
-        """Forward pass for the YOLOv8 mask Proto module."""
-        # # Ensure x is a list of two tensors
-        # assert len(x) == 2, "Input must be a list of two tensors."
+        """Forward pass with padding for size adjustment."""
+        # Ensure x is a list of two tensors
+        assert len(x) == 2, "Input must be a list of two tensors."
         
-        # Check if the sizes are off by one pixel
-        if x[0].shape[2:] != x[1].shape[2:]:
-            shape0 = x[0].shape[2:]
-            shape1 = x[1].shape[2:]
+        shape0 = x[0].shape[2:]
+        shape1 = x[1].shape[2:]
+        
+        # Check if the sizes are different
+        if shape0 != shape1:
+            # Calculate padding for each dimension
+            padding0 = [(shape1[i] - shape0[i]) // 2 if shape1[i] > shape0[i] else 0 for i in range(len(shape0))]
+            padding1 = [(shape0[i] - shape1[i]) // 2 if shape0[i] > shape1[i] else 0 for i in range(len(shape1))]
             
-            # Determine if x[1] is larger than x[0] in any spatial dimension
-            if any([shape1[i] > shape0[i] for i in range(len(shape0))]):
-                # Crop x[1] to match x[0]
-                x1 = x[1][:,:shape0[0], :shape0[1]]
-                x0 = x[0]
+            # Apply padding (only apply padding if the difference is non-zero)
+            if sum(padding0) > 0:
+                x0 = F.pad(x[0], (0, padding0[1], 0, padding0[0]), mode='constant', value=0)
             else:
-                # Crop x[0] to match x[1]
-                x0 = x[0][:,:shape1[0], :shape1[1]]
+                x0 = x[0]
+            
+            if sum(padding1) > 0:
+                x1 = F.pad(x[1], (0, padding1[1], 0, padding1[0]), mode='constant', value=0)
+            else:
                 x1 = x[1]
         else:
             x0 = x[0]
