@@ -321,7 +321,7 @@ class Conv_Fractional_Max_Pooling(nn.Module):
         self.conv = nn.Conv2d(c1, c2, k, s, autopad(k, p, d), groups=g, dilation=d, bias=False)
         self.bn = nn.BatchNorm2d(c2)
         self.act = self.default_act if act is True else act if isinstance(act, nn.Module) else nn.Identity()
-        self.max_pool = nn.FractionalMaxPool2d(km, output_ratio=(0.55, 0.55))  # GAP layer
+        self.max_pool = nn.FractionalMaxPool2d(km, output_ratio=(0.75, 0.75))  # GAP layer
 
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
@@ -746,7 +746,7 @@ class Concat_AdjustSize(nn.Module):
         self.d = dimension
 
     def forward(self, x):
-        """Forward pass with size trimming for adjustment."""
+        """Forward pass with padding for size adjustment."""
         # Ensure x is a list of two tensors
         assert len(x) == 2, "Input must be a list of two tensors."
         
@@ -755,11 +755,15 @@ class Concat_AdjustSize(nn.Module):
         
         # Check if the sizes are different
         if shape0 != shape1:
-            min_height = min(shape0[0], shape1[0])
-            min_width = min(shape0[1], shape1[1])
+            if shape1[0] > shape0[0]:
+                x0 = F.interpolate(x[0], shape1)
+            else:
+                x0 = x[0]
             
-            x0 = x[0][:, :, :min_height, :min_width]
-            x1 = x[1][:, :, :min_height, :min_width]
+            if shape0[0] > shape1[0]:
+                x1 = F.interpolate(x[1], shape0)
+            else:
+                x1 = x[1]
         else:
             x0 = x[0]
             x1 = x[1]
