@@ -717,8 +717,28 @@ class Concat_AdjustSize(nn.Module):
         """Concatenates a list of tensors along a specified dimension."""
         super().__init__()
         self.d = dimension
-        self.max_pooling = nn.MaxPool2d(2, 2)
-
+        
     def forward(self, x):
         """Forward pass for the YOLOv8 mask Proto module."""
-        return torch.cat((x[0], self.max_pooling(x[1])), self.d)
+        # # Ensure x is a list of two tensors
+        # assert len(x) == 2, "Input must be a list of two tensors."
+        
+        # Check if the sizes are off by one pixel
+        if x[0].shape[2:] != x[1].shape[2:]:
+            shape0 = x[0].shape[2:]
+            shape1 = x[1].shape[2:]
+            
+            # Determine if x[1] is larger than x[0] in any spatial dimension
+            if any([shape1[i] > shape0[i] for i in range(len(shape0))]):
+                # Crop x[1] to match x[0]
+                x1 = x[1][:,:shape0[0], :shape0[1]]
+                x0 = x[0]
+            else:
+                # Crop x[0] to match x[1]
+                x0 = x[0][:,:shape1[0], :shape1[1]]
+                x1 = x[1]
+        else:
+            x0 = x[0]
+            x1 = x[1]
+        
+        return torch.cat((x0, x1), self.d)
