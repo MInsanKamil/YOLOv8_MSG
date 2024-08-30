@@ -544,14 +544,14 @@ class Focus(nn.Module):
 class GhostConv(nn.Module):
     """Ghost Convolution https://github.com/huawei-noah/ghostnet."""
 
-    def __init__(self, c1, c2, k=1, s=1, g=1, act=True):
+    def __init__(self, c1, c2, k=1, s=1, kd=7, g=1, act=True):
         """Initializes the GhostConv object with input channels, output channels, kernel size, stride, groups and
         activation.
         """
         super().__init__()
         c_ = c2 // 2  # hidden channels
         self.cv1 = Conv(c1, c_, k, s, None, g, act=act)
-        self.cv2 = Conv(c_, c_, 7, 1, None, c_, act=act)
+        self.cv2 = Conv(c_, c_, kd, 1, None, c_, act=act)
 
     def forward(self, x):
         """Forward propagation through a Ghost Bottleneck layer with skip connection."""
