@@ -14,7 +14,7 @@ YOLOv8_MSG adalah YOLOv8 versi nano yang telah dioptimasi menggunakan metode:
 <br>
 
 ```bash
-!git clone https://github.com/MInsanKamil/YOLOv8_MSG.git
+git clone https://github.com/MInsanKamil/YOLOv8_MSG.git
 ```
 
 <summary>Contoh Penggunaan</summary>
@@ -33,6 +33,9 @@ from ultralytics.models.yolo.model import YOLO
 # Load a model
 model = YOLO("ultralytics/cfg/models/v8/nama_model.yaml") # build a new model from scratch
 model = YOLO("ultralytics/cfg/models/v8/nama_model.yaml").load("yolov8n.pt")  # load weight pretrained yolov8n coco dataset
+
+# Load a model pretrained yolov8_msg indoor dataset
+model = YOLO('best.pt')
 
 # Use the model
 model.train(data="coco8.yaml", epochs=3)  # train the model
