@@ -8,14 +8,7 @@ YOLOv8_MSG adalah YOLOv8 versi nano yang telah dioptimasi menggunakan metode:
 
 ## <div align="center">Dokumentasi</div>
 
-## Cara Intall & Contoh Penggunaan
-
-<summary>Cara Install</summary>
-<br>
-
-```bash
-git clone https://github.com/MInsanKamil/YOLOv8_MSG.git
-```
+## Contoh Penggunaan
 
 <summary>Contoh Penggunaan</summary>
 
@@ -25,6 +18,10 @@ git clone https://github.com/MInsanKamil/YOLOv8_MSG.git
   - yolov8n_GhostModule.yaml (YOLOv8n + Ghost Module)(ultralytics/cfg/models/v8/yolov8n_GhostModule.yaml)
   - yolov8n_GhostModule_Avg_Pooling.yaml (YOLOv8n + Ghost Module + Down-sampling)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Avg_Pooling.yaml)
   - yolov8n_GhostModule_Avg_Pooling_CBAM.yaml (YOLOv8n + Ghost Module + Down-sampling + Attention Mechanism)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Avg_Pooling_CBAM.yaml)
+
+```bash
+git clone https://github.com/MInsanKamil/YOLOv8_MSG.git
+```
 
 ```bash
 cd YOLOv8_MSG
