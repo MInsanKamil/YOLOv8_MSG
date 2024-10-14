@@ -26,8 +26,11 @@ git clone https://github.com/MInsanKamil/YOLOv8_MSG.git
   - yolov8n_GhostModule_Avg_Pooling.yaml (YOLOv8n + Ghost Module + Down-sampling)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Avg_Pooling.yaml)
   - yolov8n_GhostModule_Avg_Pooling_CBAM.yaml (YOLOv8n + Ghost Module + Down-sampling + Attention Mechanism)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Avg_Pooling_CBAM.yaml)
 
+```bash
+cd YOLOv8_MSG
+```
+
 ```python
-os.chdir("../YOLOv8_MSG")
 from ultralytics.models.yolo.model import YOLO
 
 # Load a model
