@@ -1278,7 +1278,7 @@ def feature_visualization(x, module_type, stage, n=32, save_dir=Path("runs/detec
             blocks = torch.chunk(x[0].cpu(), channels, dim=0)  # select batch index 0, block by channels
             # n = min(n, channels)  # number of plots
             n = min(1,16)
-            _, ax = plt.subplots(math.ceil(4 / 4), 1, tight_layout=True)  # 8 rows x n/8 cols
+            _, ax = plt.subplots(math.ceil(n / 4), 4, tight_layout=True)  # 8 rows x n/8 cols
             ax = ax.ravel()
             plt.subplots_adjust(wspace=0.05, hspace=0.05)
             for i in range(n):
