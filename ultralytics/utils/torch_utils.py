@@ -267,7 +267,7 @@ def model_info(model, detailed=False, verbose=True, imgsz=640):
                 % (i, name, p.requires_grad, p.numel(), list(p.shape), p.mean(), p.std(), p.dtype)
             )
 
-    flops = get_flops_with_torch_profiler(model, imgsz)
+    flops = get_flops(model, imgsz)
     fused = " (fused)" if getattr(model, "is_fused", lambda: False)() else ""
     fs = f", {flops:.3f} GFLOPs" if flops else ""
     yaml_file = getattr(model, "yaml_file", "") or getattr(model, "yaml", {}).get("yaml_file", "")
@@ -308,7 +308,7 @@ def model_info_for_loggers(trainer):
     else:  # only return PyTorch times from most recent validation
         results = {
             "model/parameters": get_num_params(trainer.model),
-            "model/GFLOPs": round(get_flops_with_torch_profiler(trainer.model), 3),
+            "model/GFLOPs": round(get_flops(trainer.model), 3),
         }
     results["model/speed_PyTorch(ms)"] = round(trainer.validator.speed["inference"], 3)
     return results
