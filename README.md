@@ -1,10 +1,19 @@
 YOLOv8_MSG adalah YOLOv8 versi nano yang telah dioptimasi menggunakan metode:
 - Implementasi <a href="https://arxiv.org/abs/1911.11907">Ghost Module</a>
-  - Modifikasi Bagian Head (Detect): Detect_GhostModule (ultralytics/nn/modules/head.py)
+  - Modifikasi Bagian Head (Detect):
+    ![Alt text](images/YOLOv8n_GhostModule.png)
+    - Detect_GhostModule (ultralytics/nn/modules/head.py)
+    - Detect_GhostModule_Modfication (ultralytics/nn/modules/head.py)
 - Penambahan Proses Down-sampling
-  - Modifikasi Conv Module: Conv_Avg_Pooling (ultralytics/nn/modules/conv.py)
+  - Modifikasi Conv Module:
+    ![Alt text](images/YOLOv8n_Downsampling.png)
+    - Conv_Avg_Pooling (ultralytics/nn/modules/conv.py)
+    - Conv_Max_Pooling (ultralytics/nn/modules/conv.py)
+    - Conv_Max_Pooling_Dropout (ultralytics/nn/modules/conv.py)
+    - Conv_Attn_Pooling (ultralytics/nn/modules/conv.py)
 - Integrasi Attention Mechanism (<a href="https://arxiv.org/abs/1807.06521">CBAM</a>)
-  - Modifikasi C2f Module: CBAM_C2f (ultralytics/nn/modules/block.py)
+  ![Alt text](images/YOLOv8n_AttentionMechanism.png)
+  - Conv_Stride_Attn_Pooling (ultralytics/nn/modules/conv.py)
 
 ## <div align="center">Dokumentasi</div>
 
