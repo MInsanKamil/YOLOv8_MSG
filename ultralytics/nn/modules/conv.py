@@ -297,7 +297,6 @@ class Conv_Max_Pooling_Dropout(nn.Module):
         self.max_pool = nn.MaxPool2d(km, stride=2)  # GAP layer
         self.dropout = nn.Dropout(prob)
         
-
     def forward(self, x):
         """Apply convolution, batch normalization and activation to input tensor."""
         x = self.act(self.bn(self.conv(x)))
