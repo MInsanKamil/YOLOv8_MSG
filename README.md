@@ -1,4 +1,4 @@
-YOLOv8_MSG adalah YOLOv8 versi nano yang telah dioptimasi menggunakan metode:
+YOLOv8_MSG (MaxSpatialpoolingGhostmodule) adalah YOLOv8 versi nano yang telah dioptimasi menggunakan metode:
 - Implementasi <a href="https://arxiv.org/abs/1911.11907">Ghost Module</a>
   - Modifikasi Bagian Head (Detect):
     ![Alt text](images/YOLOv8n_GhostModule.png)
@@ -25,10 +25,11 @@ YOLOv8_MSG adalah YOLOv8 versi nano yang telah dioptimasi menggunakan metode:
 
 ### Python
 
-- Nama Model:
+- Lokasi Model Yang Telah Dimodifikasi:
+  - ultralytics/cfg/models/v8/
+- Contoh Nama Model Modifikasi:
   - yolov8n_GhostModule.yaml (YOLOv8n + Ghost Module)(ultralytics/cfg/models/v8/yolov8n_GhostModule.yaml)
-  - yolov8n_GhostModule_Avg_Pooling.yaml (YOLOv8n + Ghost Module + Down-sampling)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Avg_Pooling.yaml)
-  - yolov8n_GhostModule_Avg_Pooling_CBAM.yaml (YOLOv8n + Ghost Module + Down-sampling + Attention Mechanism)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Avg_Pooling_CBAM.yaml)
+
 
 ```bash
 pip install ultralytics
@@ -58,11 +59,6 @@ metrics = model.val()  # evaluate model performance on the validation set
 results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image
 path = model.export(format="onnx")  # export the model to ONNX format
 ```
-
-### Notebooks
-
-| Notebook                                                                                                                           | 
-| <a href="https://colab.research.google.com/drive/1Lx3UP3TE2dDNbCZMLID4DaG7uIWnninW#scrollTo=75-VWNhGmS9q">Evaluasi Model</a>                                      | 
 
 ## <div align="center">Models</div>
 
