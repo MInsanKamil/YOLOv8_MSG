@@ -1256,7 +1256,7 @@ def output_to_rotated_target(output, max_det=300):
     return targets[:, 0], targets[:, 1], targets[:, 2:-1], targets[:, -1]
 
 
-def feature_visualization(x, module_type, stage, n=16, save_dir=Path("runs/detect/exp")):
+def feature_visualization(x, module_type, stage, n=4, save_dir=Path("runs/detect/exp")):
     """
     Visualize feature maps of a given model module during inference.
 
@@ -1278,7 +1278,7 @@ def feature_visualization(x, module_type, stage, n=16, save_dir=Path("runs/detec
             blocks = torch.chunk(x[0].cpu(), channels, dim=0)  # select batch index 0, block by channels
             # n = min(n, channels)  # number of plots
             n = min(n,channels)
-            _, ax = plt.subplots(math.ceil(n / 4), 4, tight_layout=True)  # 4 rows x n/4 cols
+            _, ax = plt.subplots(math.ceil(n / 2), 2, tight_layout=True)  # 4 rows x n/4 cols
             ax = ax.ravel()
             plt.subplots_adjust(wspace=0.05, hspace=0.05)
             for i in range(n):
