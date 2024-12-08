@@ -1284,6 +1284,8 @@ def feature_visualization(x, module_type, stage, n=16, save_dir=Path("runs/detec
             for i in range(n):
                 ax[i].imshow(blocks[i].squeeze())  # cmap='gray'
                 ax[i].axis("off")
+                ax[i].text(0, 0, f"({i + 1})", color="white", fontsize=8, 
+                           ha="left", va="top", backgroundcolor="black")
 
             LOGGER.info(f"Saving {f}... ({n}/{channels})")
             plt.savefig(f, dpi=300, bbox_inches="tight")
