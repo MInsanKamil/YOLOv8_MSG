@@ -27,8 +27,9 @@ YOLOv8_MSG (MaxSpatialpoolingGhostmodule) adalah YOLOv8 versi nano yang telah di
 
 - Lokasi Model Yang Telah Dimodifikasi:
   - ultralytics/cfg/models/v8/
-- Contoh Nama Model Modifikasi:
-  - yolov8n_GhostModule.yaml (YOLOv8n + Ghost Module)(ultralytics/cfg/models/v8/yolov8n_GhostModule.yaml)
+- Nama Model Modifikasi (Best Model):
+  - yolov8n_Max_Pooling_Dropout.yaml (YOLOv8n + Max Pooling Dropout(need adjust dropout probability))(ultralytics/cfg/models/v8/yolov8n_Max_Pooling_Dropout.yaml)
+  - yolov8n_GhostModule_Attn_Pooling.yaml (YOLOv8n + Ghost Module + Attention Max Pooling)(ultralytics/cfg/models/v8/yolov8n_GhostModule_Attn_Pooling.yaml)
 
 
 ```bash
